@@ -1,0 +1,107 @@
+# NexusHouses configuration.
+#
+# The core idea: a house is a real political entity with a real line of succession. A real player
+# death, if that player was their house's head, is a real event -- the heir takes over, or (with
+# no heir) the longest-serving bannerman is raised up, or (with no one left at all) the house's
+# line simply ends. Names/mottos/sigils are entirely player-chosen and original -- this is
+# GoT-FLAVORED, not a reskin of the show/books' actual houses or characters.
+houses:
+  enabled: true
+
+  max-name-length: 24
+  max-motto-length: 64
+
+  # Whether a head's real death actually triggers succession, and how likely it is to (100 =
+  # always -- the more thematically "true" default, since in Game of Thrones any death of a major
+  # figure is a real event regardless of cause). Turn this down if your server's death rate is
+  # high enough that constant succession changes would feel more chaotic than dramatic.
+  succession-trigger-chance-percent: 100
+
+  # Minimum real minutes between two succession events for the SAME house -- a safety net against
+  # a brand-new head immediately dying again (e.g. to the same environmental hazard) and causing
+  # back-to-back successions.
+  succession-cooldown-minutes: 5
+
+  # The sigil beasts a house can choose from when founding (plain generic animal words --
+  # original, not the show's specific heraldry). Purely flavor text shown in chat/info, not
+  # rendered on the banner itself (see the banner system's own honest limitation below).
+  sigil-beasts: [wolf, lion, stag, kraken, dragon, bear, falcon, serpent, boar, raven, fox, eagle]
+
+  # Real vanilla banner colors a house can choose as its primary (base cloth) and secondary
+  # (pattern) color.
+  banner-colors: [WHITE, BLACK, RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, GRAY, CYAN]
+
+# Horse allegiance: sneak-right-click your own tamed horse while holding your house's banner
+# (/house banner) and it's sworn to your colors from then on -- a visible custom name, the same
+# unspoofable PersistentDataContainer tagging every other identity marker in this plugin uses.
+# Sneak-right-click again with an empty hand to take the banner back down. Identification only, on
+# purpose -- see HorseAllegianceListener's own doc comment for why this doesn't grant any bonus.
+horse-banners:
+  enabled: true
+
+# Treasure regions: named, admin-defined zones (a kingdom, a city, a ruin -- anywhere) where every
+# real chest becomes a living treasure chest. The FIRST time anyone opens a chest inside a region,
+# it's stocked with a fresh randomized haul on the spot -- nothing sits empty waiting to be found.
+# Once emptied, it restocks again after restock-hours of real time, whether or not anyone's there
+# to see it happen. Define regions with /house region create <name> <radiusBlocks> (centered on
+# where you're standing), /house region remove <name>, /house region list.
+treasure:
+  enabled: true
+
+  # Real hours (wall-clock) from a treasure chest being emptied until it's stocked again.
+  restock-hours: 8
+
+  # How often (real minutes) a background sweep checks every tracked chest for one whose
+  # restock-hours has elapsed and proactively refills it, so a chest is already full again next
+  # time someone checks rather than only refilling the moment it's re-opened.
+  sweep-interval-minutes: 5
+
+  # How many item stacks a restock places (a random count in this range, each stack independently
+  # rolled from loot: below).
+  items-min: 2
+  items-max: 5
+
+  # The loot pool restocks draw from -- weighted (higher rolls more often), amount is a random
+  # range per stack. A malformed entry (unknown material, missing weight) is skipped individually
+  # with a logged warning, never fatal to the rest of the list.
+  loot:
+    - material: IRON_INGOT
+      min: 1
+      max: 4
+      weight: 40
+    - material: GOLD_INGOT
+      min: 1
+      max: 3
+      weight: 30
+    - material: EMERALD
+      min: 1
+      max: 3
+      weight: 25
+    - material: BREAD
+      min: 2
+      max: 6
+      weight: 35
+    - material: ARROW
+      min: 4
+      max: 12
+      weight: 30
+    - material: DIAMOND
+      min: 1
+      max: 2
+      weight: 8
+    - material: NETHERITE_INGOT
+      min: 1
+      max: 1
+      weight: 2
+    - material: GOLDEN_APPLE
+      min: 1
+      max: 1
+      weight: 6
+    - material: ENDER_PEARL
+      min: 1
+      max: 2
+      weight: 10
+    - material: EXPERIENCE_BOTTLE
+      min: 2
+      max: 5
+      weight: 20
